@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:chat/api_services/api_services.dart';
+import 'package:chat/screens/home_page.dart';
 import 'package:chat/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -7,28 +9,27 @@ class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
   @override
-  _SplashScreenState createState() => _SplashScreenState();
+  State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _animationController;
-  late Animation<double> _animation;
-
+class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    _animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 1000),
-    );
-    _animation =
-        Tween<double>(begin: 0.0, end: 1.0).animate(_animationController);
-    _animationController.forward();
-
     Timer(const Duration(seconds: 3), () {
-      Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => const LoginPage()));
+      if (ApiServices.auth.currentUser != null) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => const HomePage(),
+          ),
+        );
+      } else {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => const LoginPage(),
+          ),
+        );
+      }
     });
   }
 
@@ -37,17 +38,11 @@ class _SplashScreenState extends State<SplashScreen>
     return Scaffold(
       backgroundColor: Colors.blue,
       body: Center(
-        child: FadeTransition(
-          opacity: _animation,
-          child: Image.asset('assets/images/chat.png'),
+        child: Image.asset(
+          'assets/images/chat.png',
+          height: 150,
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _animationController.dispose();
-    super.dispose();
   }
 }

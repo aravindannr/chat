@@ -17,10 +17,7 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -28,10 +25,7 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return macos;
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -49,6 +43,15 @@ class DefaultFirebaseOptions {
     }
   }
 
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyCkv9pkp77SQ8jza9IqF_z91EheV6GAQI0',
+    appId: '1:136836973877:web:e48f24db6a42f6ffccf87c',
+    messagingSenderId: '136836973877',
+    projectId: 'chat-test-1a0a6',
+    authDomain: 'chat-test-1a0a6.firebaseapp.com',
+    storageBucket: 'chat-test-1a0a6.appspot.com',
+  );
+
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyBqw1vJRVrxhgHnmiTPb5Tjo8akHOzfa9I',
     appId: '1:136836973877:android:978c4304901aafe1ccf87c',
@@ -63,6 +66,19 @@ class DefaultFirebaseOptions {
     messagingSenderId: '136836973877',
     projectId: 'chat-test-1a0a6',
     storageBucket: 'chat-test-1a0a6.appspot.com',
+    androidClientId: '136836973877-i430fj9ttikqitvdk009b0k4ibmk7tlj.apps.googleusercontent.com',
+    iosClientId: '136836973877-5j85ggb4jes49hhvnri67hnpko5r3j0a.apps.googleusercontent.com',
     iosBundleId: 'com.example.chat',
+  );
+
+  static const FirebaseOptions macos = FirebaseOptions(
+    apiKey: 'AIzaSyBGcWnJjm51IJQQLB2nBkodFIGLZtyDVzU',
+    appId: '1:136836973877:ios:dc729dcc078fd4d7ccf87c',
+    messagingSenderId: '136836973877',
+    projectId: 'chat-test-1a0a6',
+    storageBucket: 'chat-test-1a0a6.appspot.com',
+    androidClientId: '136836973877-i430fj9ttikqitvdk009b0k4ibmk7tlj.apps.googleusercontent.com',
+    iosClientId: '136836973877-fgjueojjp4ki3ortmnlmmb127rijnpvg.apps.googleusercontent.com',
+    iosBundleId: 'com.example.chat.RunnerTests',
   );
 }

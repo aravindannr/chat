@@ -1,6 +1,11 @@
+import 'dart:io';
+
+import 'package:chat/api_services/api_services.dart';
 import 'package:chat/screens/home_page.dart';
+import 'package:chat/utils/dialogues.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -13,24 +18,54 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   fnHandleGoogleBtnClick() {
-    signInWithGoogle().then((value) {
-      Navigator.push(
-          context, CupertinoPageRoute(builder: (val) => const HomePage()));
+    CustomSnackBar.showProgressBar(context);
+    signInWithGoogle().then((value) async {
+      Navigator.pop(context);
+      if (value != null) {
+        if (await ApiServices.userExist()) {
+          Navigator.pushReplacement(
+            context,
+            CupertinoPageRoute(
+              builder: (value) => const HomePage(),
+            ),
+          );
+        } else {
+          await ApiServices.createUser().then((value) {
+            Navigator.pushReplacement(
+              context,
+              CupertinoPageRoute(
+                builder: (value) => const HomePage(),
+              ),
+            );
+          });
+        }
+      }
     });
   }
 
-  Future<UserCredential> signInWithGoogle() async {
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+  Future<UserCredential?> signInWithGoogle() async {
+    try {
+      await InternetAddress.lookup("google.com");
 
-    final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
-    );
+      final GoogleSignInAuthentication? googleAuth =
+          await googleUser?.authentication;
 
-    return await FirebaseAuth.instance.signInWithCredential(credential);
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
+      );
+
+      return await ApiServices.auth.signInWithCredential(credential);
+    } catch (e) {
+      if (kDebugMode) {
+        print("signInWithGoogle : $e");
+      }
+      CustomSnackBar.showSnackBar(
+          context, "Something went wrong check your internet connection");
+    }
+    return null;
   }
 
   @override
@@ -50,7 +85,9 @@ class _LoginPageState extends State<LoginPage> {
             height: 100,
           ),
           ElevatedButton.icon(
-            onPressed: () {},
+            onPressed: () {
+              fnHandleGoogleBtnClick();
+            },
             icon: const Icon(
               Icons.bus_alert,
             ),
