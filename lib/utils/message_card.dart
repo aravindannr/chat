@@ -122,7 +122,7 @@ class _MessageCardState extends State<MessageCard> {
   }
 
   Widget greenMessage() {
-    if (widget.message.read.isEmpty) {
+    if (widget.message.message.isEmpty) {
       ApiServices.updateMessageReadStatus(widget.message);
     }
     return Row(
@@ -135,7 +135,7 @@ class _MessageCardState extends State<MessageCard> {
             ),
             Icon(
               Icons.done_all_rounded,
-              color: widget.message.read.isNotEmpty
+              color: widget.message.message.isNotEmpty
                   ? Colors.blue.shade600
                   : Colors.grey.shade500,
             ),
@@ -334,9 +334,9 @@ class _MessageCardState extends State<MessageCard> {
                     color: Colors.green,
                   ),
                   title: Text(
-                    widget.message.read.isEmpty
+                    widget.message.message.isEmpty
                         ? "Read at : not read yet"
-                        : "Read at : ${MyDateUtil.getMessageTime(context: context, time: widget.message.read)} ",
+                        : "Read at : ${MyDateUtil.getMessageTime(context: context, time: widget.message.message)} ",
                     style: const TextStyle(fontSize: 16),
                   ),
                 )),

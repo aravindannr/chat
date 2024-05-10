@@ -178,7 +178,6 @@ class ApiServices {
     final MessageModal message = MessageModal(
         toId: chatUserModal.id,
         dlvryTime: time,
-        read: "",
         frId: user.uid,
         message: msg,
         type: type);

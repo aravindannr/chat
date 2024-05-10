@@ -12,7 +12,6 @@ String messageModalToJson(MessageModal data) => json.encode(data.toJson());
 class MessageModal {
   String toId;
   String dlvryTime;
-  String read;
   String frId;
   String message;
   Type type;
@@ -20,7 +19,6 @@ class MessageModal {
   MessageModal({
     required this.toId,
     required this.dlvryTime,
-    required this.read,
     required this.frId,
     required this.message,
     required this.type,
@@ -29,7 +27,6 @@ class MessageModal {
   factory MessageModal.fromJson(Map<String, dynamic> json) => MessageModal(
         toId: json["toId"],
         dlvryTime: json["dlvryTime"],
-        read: json["read"],
         frId: json["frId"],
         message: json["message"],
         type: json["type"] == "video"
@@ -42,7 +39,6 @@ class MessageModal {
   Map<String, dynamic> toJson() => {
         "toId": toId,
         "dlvryTime": dlvryTime,
-        "read": read,
         "frId": frId,
         "message": message,
         "type": type.name,

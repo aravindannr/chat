@@ -78,7 +78,7 @@ class _ChatUserCardState extends State<ChatUserCard> {
           ),
           trailing: messageModal == null
               ? null
-              : messageModal!.read.isEmpty &&
+              : messageModal!.message.isEmpty &&
                       messageModal!.frId != ApiServices.user.uid
                   ? Container(
                       width: 15,
