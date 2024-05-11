@@ -30,7 +30,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
           );
         } else {
-          await ApiServices.createUser().then((value) {
+          await ApiServices.createTestUser().then((value) {
             Navigator.pushReplacement(
               context,
               CupertinoPageRoute(

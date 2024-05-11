@@ -7,6 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart';
 
 class ApiServices {
@@ -65,6 +66,7 @@ class ApiServices {
         me.pushToken = value;
       }
     });
+
     // FirebaseMessaging.onMessage.listen((RemoteMessage message) {
     //   log('Got a message whilst in the foreground!');
     //   log('Message data: ${message.data}');
@@ -75,9 +77,25 @@ class ApiServices {
     // });
   }
 
+  static Future<UserCredential?> signInWithEmailAndPassword(
+      String email, String password) async {
+    try {
+      return await auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+    } catch (e) {
+      if (kDebugMode) {
+        print("signInWithEmailAndPassword : $e");
+      }
+      rethrow;
+    }
+  }
+
 //for checking if the user exist or not
   static Future<bool> userExist() async {
-    return (await fireStore.collection('users').doc(user.uid).get()).exists;
+    return (await fireStore.collection('test users').doc(user.uid).get())
+        .exists;
   }
 
   //for getting current user info
@@ -105,6 +123,23 @@ class ApiServices {
         pushToken: '',
         email: user.email.toString());
     return await fireStore.collection('users').doc(user.uid).set(
+          chatUser.toJson(),
+        );
+  }
+
+  static Future<void> createTestUser() async {
+    final time = DateTime.now().millisecondsSinceEpoch.toString();
+    final chatUser = ChatUserModal(
+        image: user.photoURL.toString(),
+        about: "user.about",
+        name: user.displayName.toString(),
+        createdAt: time,
+        isOnline: false,
+        lastActive: time,
+        id: user.uid,
+        pushToken: '',
+        email: user.email.toString());
+    return await fireStore.collection('test users').doc(user.uid).set(
           chatUser.toJson(),
         );
   }

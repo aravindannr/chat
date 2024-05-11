@@ -52,18 +52,21 @@ class _ChatUserCardState extends State<ChatUserCard> {
               MediaQuery.of(context).size.height * .055,
             ),
             child: InkWell(
-              onTap: () {
-                fnShowProfileImage(context, widget.title);
-              },
-              child: CachedNetworkImage(
-                height: MediaQuery.of(context).size.height * .055,
-                width: MediaQuery.of(context).size.height * .055,
-                imageUrl: widget.title.image,
-                progressIndicatorBuilder: (context, url, downloadProgress) =>
-                    const CircularProgressIndicator(),
-                errorWidget: (context, url, error) => const Icon(Icons.error),
-              ),
-            ),
+                onTap: () {
+                  fnShowProfileImage(context, widget.title);
+                },
+                child: widget.title.image != ''
+                    ? CachedNetworkImage(
+                        height: MediaQuery.of(context).size.height * .055,
+                        width: MediaQuery.of(context).size.height * .055,
+                        imageUrl: widget.title.image,
+                        progressIndicatorBuilder:
+                            (context, url, downloadProgress) =>
+                                const CircularProgressIndicator(),
+                        errorWidget: (context, url, error) =>
+                            const Icon(Icons.error),
+                      )
+                    : const Icon(Icons.person)),
           ),
           title: Text(widget.title.name),
           subtitle: Text(
