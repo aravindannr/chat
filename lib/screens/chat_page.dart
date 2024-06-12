@@ -275,11 +275,11 @@ class _ChatPageState extends State<ChatPage> {
           ),
           ElevatedButton(
             style: ButtonStyle(
-              backgroundColor: MaterialStatePropertyAll(Colors.green.shade300),
-              shape: const MaterialStatePropertyAll(
+              backgroundColor: WidgetStatePropertyAll(Colors.green.shade300),
+              shape: const WidgetStatePropertyAll(
                 CircleBorder(side: BorderSide.none),
               ),
-              minimumSize: const MaterialStatePropertyAll(
+              minimumSize: const WidgetStatePropertyAll(
                 Size(50, 50),
               ),
             ),

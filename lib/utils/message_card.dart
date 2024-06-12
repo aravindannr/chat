@@ -86,7 +86,7 @@ class _MessageCardState extends State<MessageCard> {
                             aspectRatio: _controller.value.aspectRatio,
                             child: VideoPlayer(_controller),
                           )
-                        : const CircularProgressIndicator()
+                        : const Center(child: CircularProgressIndicator())
                     : ClipRRect(
                         clipBehavior: Clip.antiAlias,
                         borderRadius: BorderRadius.circular(

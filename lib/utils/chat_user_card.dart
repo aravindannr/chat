@@ -3,7 +3,6 @@ import 'package:chat/api_services/api_services.dart';
 import 'package:chat/model/chat_user.dart';
 import 'package:chat/model/message_modal.dart';
 import 'package:chat/screens/chat_page.dart';
-import 'package:chat/screens/profile_page.dart';
 import 'package:chat/screens/view_profile.dart';
 import 'package:chat/utils/mydate_util.dart';
 import 'package:flutter/cupertino.dart';
@@ -52,21 +51,22 @@ class _ChatUserCardState extends State<ChatUserCard> {
               MediaQuery.of(context).size.height * .055,
             ),
             child: InkWell(
-                onTap: () {
-                  fnShowProfileImage(context, widget.title);
-                },
-                child: widget.title.image != ''
-                    ? CachedNetworkImage(
-                        height: MediaQuery.of(context).size.height * .055,
-                        width: MediaQuery.of(context).size.height * .055,
-                        imageUrl: widget.title.image,
-                        progressIndicatorBuilder:
-                            (context, url, downloadProgress) =>
-                                const CircularProgressIndicator(),
-                        errorWidget: (context, url, error) =>
-                            const Icon(Icons.error),
-                      )
-                    : const Icon(Icons.person)),
+              onTap: () {
+                fnShowProfileImage(context, widget.title);
+              },
+              child: widget.title.image != ''
+                  ? CachedNetworkImage(
+                      height: MediaQuery.of(context).size.height * .055,
+                      width: MediaQuery.of(context).size.height * .055,
+                      imageUrl: widget.title.image,
+                      progressIndicatorBuilder:
+                          (context, url, downloadProgress) =>
+                              const CircularProgressIndicator(),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
+                    )
+                  : const Icon(Icons.person),
+            ),
           ),
           title: Text(widget.title.name),
           subtitle: Text(
